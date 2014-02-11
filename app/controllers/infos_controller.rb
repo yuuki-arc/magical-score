@@ -98,19 +98,22 @@ class InfosController < ApplicationController
     end
 
     def extract_link
-      list = @agent.get "#{BASE_URL}/divanet/pv/sort/1/false/0"
+      top = @agent.get "#{BASE_URL}/divanet/pv/sort/1/false/0"
+      pages = top.search("form.selectPage select[@name='page'] option")
 
-      # href 属性の値が .jpg で終わるリンクをすべて抽出
       title_infos = []
       music_infos = []
-      list.links_with(:href => /\/divanet\/pv\/info/n).each do |link|
-        title_infos << link.text
-        music_infos << @agent.get("#{BASE_URL}#{link.href}") # リンクにアクセスした結果をカレントディレクトリに保存
+      pages.each do |page|
+        list = @agent.get "#{BASE_URL}#{page['value']}"
+        list.links_with(:href => /\/divanet\/pv\/info/n).each do |link|
+          title_infos << link.text
+          music_infos << @agent.get("#{BASE_URL}#{link.href}") # リンクにアクセスした結果をカレントディレクトリに保存
+        end
       end
 
-      mode_text = ['EASY', 'NORMAL', 'HARD', 'EXTREME']
       @infos = []
       music_infos.each_with_index do |music_info, i|
+        puts title_infos[i]
         tables = music_info.search('table')
         trs = tables.search('tr')
 
