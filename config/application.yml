@@ -1,7 +1,7 @@
 defaults: &defaults
   api_key: abc123
-  login_id: 99999
-  login_password: aaaaa
+  login_id: '00000000000000000000'
+  login_password: '9999'
 
 development:
   <<: *defaults

@@ -45,3 +45,6 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'flatui-rails'
+
+gem 'settingslogic'
+gem 'mechanize'
