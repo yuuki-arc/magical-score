@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'mechanize'
+require 'thread'
 
 class InfosController < ApplicationController
   before_action :set_info, only: [:show, :edit, :update, :destroy]
@@ -101,29 +102,113 @@ class InfosController < ApplicationController
       top = @agent.get "#{BASE_URL}/divanet/pv/sort/1/false/0"
       pages = top.search("form.selectPage select[@name='page'] option")
 
-      title_infos = []
-      music_infos = []
-      pages.each do |page|
-        list = @agent.get "#{BASE_URL}#{page['value']}"
-        list.links_with(:href => /\/divanet\/pv\/info/n).each do |link|
-          title_infos << link.text
-          music_infos << @agent.get("#{BASE_URL}#{link.href}") # リンクにアクセスした結果をカレントディレクトリに保存
-        end
-      end
+      # title_infos = []
+      # music_infos = []
+      # pages.each do |page|
+      #   list = @agent.get "#{BASE_URL}#{page['value']}"
+      #   list.links_with(:href => /\/divanet\/pv\/info/n).each do |link|
+      #     title_infos << link.text
+      #     music_infos << @agent.get("#{BASE_URL}#{link.href}") # リンクにアクセスした結果をカレントディレクトリに保存
+      #   end
+      # end
 
+      # ページ内のリンクを抽出
+      lists = []
+      q = Queue.new
+      pages.each { |page| q.push(page) }
+      q.push nil
+
+      max_thread = 8 # 最大スレッド数
+      # max_threadで指定した数だけスレッドを開始
+      Array.new(max_thread) do |i|
+        Thread.new { # スレッドを作成
+          begin
+            # 最後のnilになったらfalseになって終了
+            while page = q.pop(true)
+              puts "start: #{Time.now} #{page['value']}"
+              list = @agent.get "#{BASE_URL}#{page['value']}"
+              lists += list.links_with(:href => /\/divanet\/pv\/info/n)
+              puts "end  : #{Time.now} #{page['value']}"
+            end
+            q.push nil # 最後を表すnilを別スレッドのために残しておく
+          end
+        }
+      end.each(&:join)
+
+      # 曲別ページ内を抽出
+      music_infos = []
+      q = Queue.new
+      lists.each { |list| q.push(list) }
+      q.push nil
+
+      max_thread = 8 # 最大スレッド数
+      # max_threadで指定した数だけスレッドを開始
+      Array.new(max_thread) do |i|
+        Thread.new { # スレッドを作成
+          begin
+            # 最後のnilになったらfalseになって終了
+            while link = q.pop(true)
+              puts "start: #{Time.now} #{link.text}"
+              music_infos << {title: link.text, body: @agent.get("#{BASE_URL}#{link.href}")}
+              puts "end  : #{Time.now} #{link.text}"
+            end
+            q.push nil # 最後を表すnilを別スレッドのために残しておく
+          end
+        }
+      end.each(&:join)
+
+      # 曲別スクレイピング
       @infos = []
-      music_infos.each_with_index do |music_info, i|
-        puts title_infos[i]
-        tables = music_info.search('table')
+      music_infos.each do |music_info|
+        puts music_info[:title]
+        tables = music_info[:body].search('table')
         trs = tables.search('tr')
 
         @infos << '<hr/>'
-        @infos << title_infos[i]
+        @infos << music_info[:title]
         0.step(12, 4) do |pos|
           break if trs[pos].search('td')[1].text != 'クリア状況'
           @infos << get_mode_score(trs, pos, pos+1, pos+3)
         end
       end
+
+    #   @infos = []
+    #   q = Queue.new
+    #   music_infos.each_with_index { |music_info, i| q.push([music_info, i]) }
+    #   q.push nil
+
+    #   max_thread = 8 # 最大スレッド数
+    #   # max_threadで指定した数だけスレッドを開始
+    #   Array.new(max_thread) do |i|
+    #     Thread.new { # スレッドを作成
+    #       begin
+    #         # 最後のnilになったらfalseになって終了
+    #         while true
+    #           break if q.nil?
+    #           arr = q.pop(true)
+    #           break if arr.nil?
+    #           tag = []
+    #           music_info = arr[0]
+    #           title_info = title_infos[arr[1]]
+    #           puts "start: #{Time.now} #{title_info}"
+
+    #           tables = music_info.search('table')
+    #           trs = tables.search('tr')
+
+    #           tag << '<hr/>'
+    #           tag << title_info
+    #           0.step(12, 4) do |pos|
+    #             break if trs[pos].search('td')[1].text != 'クリア状況'
+    #             tag << get_mode_score(trs, pos, pos+1, pos+3)
+    #           end
+    #           @infos += tag
+
+    #           puts "end  : #{Time.now} #{title_info}"
+    #         end
+    #         q.push nil # 最後を表すnilを別スレッドのために残しておく
+    #       end
+    #     }
+    #   end.each(&:join)
 
     end
 
