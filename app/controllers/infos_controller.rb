@@ -88,8 +88,6 @@ class InfosController < ApplicationController
       @agent.page.form_with(name: 'loginActionForm') do |form|
         form.field_with(name: 'accessCode').value = Setting.login_id
         form.field_with(name: 'password').value = Setting.login_password
-    #    @agent.page.body =~ /\("\.albatross"\)\[0\]\.value = "(.*)"/
-    #    form.field_with(name: '.albatross').value = $1
         form.click_button
       end
 
@@ -101,16 +99,6 @@ class InfosController < ApplicationController
     def extract_link
       top = @agent.get "#{BASE_URL}/divanet/pv/sort/1/false/0"
       pages = top.search("form.selectPage select[@name='page'] option")
-
-      # title_infos = []
-      # music_infos = []
-      # pages.each do |page|
-      #   list = @agent.get "#{BASE_URL}#{page['value']}"
-      #   list.links_with(:href => /\/divanet\/pv\/info/n).each do |link|
-      #     title_infos << link.text
-      #     music_infos << @agent.get("#{BASE_URL}#{link.href}") # リンクにアクセスした結果をカレントディレクトリに保存
-      #   end
-      # end
 
       # ページ内のリンクを抽出
       lists = []
@@ -171,44 +159,6 @@ class InfosController < ApplicationController
           @infos << get_mode_score(trs, pos, pos+1, pos+3)
         end
       end
-
-    #   @infos = []
-    #   q = Queue.new
-    #   music_infos.each_with_index { |music_info, i| q.push([music_info, i]) }
-    #   q.push nil
-
-    #   max_thread = 8 # 最大スレッド数
-    #   # max_threadで指定した数だけスレッドを開始
-    #   Array.new(max_thread) do |i|
-    #     Thread.new { # スレッドを作成
-    #       begin
-    #         # 最後のnilになったらfalseになって終了
-    #         while true
-    #           break if q.nil?
-    #           arr = q.pop(true)
-    #           break if arr.nil?
-    #           tag = []
-    #           music_info = arr[0]
-    #           title_info = title_infos[arr[1]]
-    #           puts "start: #{Time.now} #{title_info}"
-
-    #           tables = music_info.search('table')
-    #           trs = tables.search('tr')
-
-    #           tag << '<hr/>'
-    #           tag << title_info
-    #           0.step(12, 4) do |pos|
-    #             break if trs[pos].search('td')[1].text != 'クリア状況'
-    #             tag << get_mode_score(trs, pos, pos+1, pos+3)
-    #           end
-    #           @infos += tag
-
-    #           puts "end  : #{Time.now} #{title_info}"
-    #         end
-    #         q.push nil # 最後を表すnilを別スレッドのために残しておく
-    #       end
-    #     }
-    #   end.each(&:join)
 
     end
 
