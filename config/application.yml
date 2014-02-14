@@ -1,0 +1,22 @@
+defaults: &defaults
+  api_key: abc123
+  login_id: '00000000000000000000'
+  login_password: '9999'
+
+development:
+  <<: *defaults
+  twitter:
+    consumer_key: 'development_consumer_key'
+    consumer_secret: 'development_consumer_secret'
+
+test:
+  <<: *defaults
+  twitter:
+    consumer_key: 'test_consumer_key'
+    consumer_secret: 'test_consumer_secret'
+
+production:
+  <<: *defaults
+  twitter:
+    consumer_key: 'production_consumer_key'
+    consumer_secret: 'production_consumer_secret'

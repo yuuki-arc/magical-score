@@ -45,3 +45,8 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'flatui-rails'
+
+gem 'settingslogic'
+gem 'mechanize'
+gem 'parallel'
+gem 'rack-mini-profiler'

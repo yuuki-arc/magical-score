@@ -1,0 +1,21 @@
+<h1>Listing infos</h1>
+
+<table class="">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @infos.each do |info| %>
+      <tr>
+        <td><%= info.html_safe %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
