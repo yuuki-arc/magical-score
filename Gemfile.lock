@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     actionmailer (4.0.2)
       actionpack (= 4.0.2)
@@ -36,7 +37,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
-    domain_name (0.5.15)
+    domain_name (0.5.16)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.0.2)
