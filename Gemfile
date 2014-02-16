@@ -50,4 +50,4 @@ gem 'settingslogic'
 gem 'mechanize'
 gem 'parallel'
 gem 'rack-mini-profiler'
-
+gem 'newrelic_rpm'
