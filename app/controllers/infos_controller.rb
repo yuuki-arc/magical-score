@@ -152,12 +152,21 @@ class InfosController < ApplicationController
         tables = music_info[:body].search('table')
         trs = tables.search('tr')
 
-        @infos << '<hr/>'
-        @infos << music_info[:title]
+        info = {}
+        info[:title] = music_info[:title]
+        mode = []
         0.step(12, 4) do |pos|
           break if trs[pos].search('td')[1].text != 'クリア状況'
-          @infos << get_mode_score(trs, pos, pos+1, pos+3)
+          tr_title = trs[pos].search('td')
+          rank_str = tr_title[0].text.split("¥n")
+          info[rank_str[0]] = {
+            star:   rank_str[1],
+            detail: get_mode_score(trs, pos, pos+1, pos+3),
+          }
+          mode << rank_str[0]
         end
+        info[:mode] = mode
+        @infos << info
       end
 
     end
@@ -166,18 +175,24 @@ class InfosController < ApplicationController
       tr_title = trs[title_idx].search('td')
       tr_clear = trs[clear_idx].search('td img')
       tr_score = trs[score_idx].search('td')
-      info = \
-        "#{tr_title[0].text}　　" +
-        "#{get_clear_image(tr_clear)}　　" +
-        "#{tr_score[0].text}　　" +
-        "#{tr_score[1].text}　　"
+      # info = \
+      #   "#{tr_title[0].text}　　" +
+      #   "#{get_clear_image(tr_clear)}　　" +
+      #   "#{tr_score[0].text}　　" +
+      #   "#{tr_score[1].text}　　"
+      info = {
+        title: tr_title[0].text,
+        image: get_clear_image(tr_clear),
+        rate:  tr_score[0].text,
+        point: tr_score[1].text,
+      }
     end
 
     def get_clear_image(elements)
       image = ''
       elements.reverse_each do |element|
         if !element.blank?
-          image = "<img src='#{BASE_URL}#{element['src']}' width='25' height='26' border='0'>"
+          image = "#{BASE_URL}#{element['src']}"
           break
         end
       end

@@ -1,6 +1,6 @@
 <h1>Listing infos</h1>
 
-<table class="">
+<table class="" border="1">
   <thead>
     <tr>
       <th></th>
@@ -12,8 +12,16 @@
   <tbody>
     <% @infos.each do |info| %>
       <tr>
-        <td><%= info.html_safe %></td>
+        <td colspan="4"><%= info[:title] %></td>
       </tr>
+      <% info[:mode].each do |mode| %>
+        <tr>
+          <td><%= mode %> <%= info[mode][:star] %></td>
+          <td><img src="<%= info[mode][:detail][:image] %>" width="25" height="26" border="0"></td>
+          <td><%= info[mode][:detail][:rate] %></td>
+          <td><%= info[mode][:detail][:point] %></td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
