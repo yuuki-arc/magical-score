@@ -1,5 +1,5 @@
 <h1>Listing infos</h1>
-
+<!--
 <table class="" border="1">
   <thead>
     <tr>
@@ -27,3 +27,17 @@
 </table>
 
 <br>
+-->
+<div class="pallete-item">
+    <% @infos.each do |info| %>
+      <dl class="pallete palette-turquoise">
+        <dt><%= info[:title] %></dt>
+        <% info[:mode].each do |mode| %>
+          <dd><%= mode %> <%= info[mode][:star] %></dd>
+          <dd><img src="<%= info[mode][:detail][:image] %>" width="25" height="26" border="0"></dd>
+          <dd><%= info[mode][:detail][:rate] %></dd>
+          <dd><%= info[mode][:detail][:point] %></dd>
+        <% end %>
+      </dl>
+    <% end %>
+</div>
