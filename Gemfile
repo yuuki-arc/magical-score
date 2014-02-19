@@ -45,7 +45,10 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'bootstrap-sass'
-gem 'flatui-rails'
+gem 'bootswatch-rails'
+group :development do
+  gem 'twitter-bootstrap-rails'
+end
 
 gem 'settingslogic'
 gem 'mechanize'
