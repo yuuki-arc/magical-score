@@ -15,3 +15,4 @@
 //= require bootstrap
 //= require flat-ui
 //= require_tree .
+//= require bootstrap
