@@ -1,5 +1,6 @@
 <h1>Listing infos</h1>
-<!--
+<%
+=begin
 <table class="" border="1">
   <thead>
     <tr>
@@ -27,17 +28,27 @@
 </table>
 
 <br>
--->
-<div class="pallete-item">
-    <% @infos.each do |info| %>
-      <dl class="pallete palette-turquoise">
-        <dt><%= info[:title] %></dt>
-        <% info[:mode].each do |mode| %>
-          <dd><%= mode %> <%= info[mode][:star] %></dd>
-          <dd><img src="<%= info[mode][:detail][:image] %>" width="25" height="26" border="0"></dd>
-          <dd><%= info[mode][:detail][:rate] %></dd>
-          <dd><%= info[mode][:detail][:point] %></dd>
-        <% end %>
-      </dl>
-    <% end %>
+=end
+%>
+
+<div>
+  <% @infos.each do |info| %>
+    <div class="page-header">
+      <h3><%= info[:title] %></h3>
+    </div>
+    <div class="bs-example table-responsive">
+      <table class="table table-striped table-hover ">
+        <tbody>
+          <% info[:mode].each do |mode| %>
+            <tr class="<%= get_difficulty_color(mode) %>">
+              <td>"<%= mode %>" <%= info[mode][:star] %></td>
+              <td><img src="<%= info[mode][:detail][:image] %>" width="25" height="26" border="0"></td>
+              <td><%= info[mode][:detail][:rate] %></td>
+              <td><%= info[mode][:detail][:point] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>
