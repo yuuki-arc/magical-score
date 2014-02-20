@@ -158,12 +158,13 @@ class InfosController < ApplicationController
         0.step(12, 4) do |pos|
           break if trs[pos].search('td')[1].text != 'クリア状況'
           tr_title = trs[pos].search('td')
-          rank_str = tr_title[0].text.split("¥n")
-          info[rank_str[0]] = {
+          rank_str = tr_title[0].text.split("\n") {|rank| rank.strip!}
+          puts "'#{rank_str[0]}', '#{rank_str[1]}'"
+          info[rank_str[0].strip] = {
             star:   rank_str[1],
             detail: get_mode_score(trs, pos, pos+1, pos+3),
           }
-          mode << rank_str[0]
+          mode << rank_str[0].strip
         end
         info[:mode] = mode
         @infos << info
