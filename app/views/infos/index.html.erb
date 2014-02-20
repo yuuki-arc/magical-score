@@ -1,36 +1,4 @@
-<h1>Listing infos</h1>
-<%
-=begin
-<table class="" border="1">
-  <thead>
-    <tr>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @infos.each do |info| %>
-      <tr>
-        <td colspan="4"><%= info[:title] %></td>
-      </tr>
-      <% info[:mode].each do |mode| %>
-        <tr>
-          <td><%= mode %> <%= info[mode][:star] %></td>
-          <td><img src="<%= info[mode][:detail][:image] %>" width="25" height="26" border="0"></td>
-          <td><%= info[mode][:detail][:rate] %></td>
-          <td><%= info[mode][:detail][:point] %></td>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-=end
-%>
-
+<h1>楽曲別スコア情報</h1>
 <div>
   <% @infos.each do |info| %>
     <div class="page-header">
@@ -41,7 +9,7 @@
         <tbody>
           <% info[:mode].each do |mode| %>
             <tr class="<%= get_difficulty_color(mode) %>">
-              <td>"<%= mode %>" <%= info[mode][:star] %></td>
+              <td><%= mode %> <%= info[mode][:star] %></td>
               <td><img src="<%= info[mode][:detail][:image] %>" width="25" height="26" border="0"></td>
               <td><%= info[mode][:detail][:rate] %></td>
               <td><%= info[mode][:detail][:point] %></td>
