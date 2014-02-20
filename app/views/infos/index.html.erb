@@ -1,15 +1,16 @@
-<h1>楽曲別スコア情報</h1>
+<h3>楽曲別スコア情報</h3>
+
 <div>
   <% @infos.each do |info| %>
     <div class="page-header">
-      <h3><%= info[:title] %></h3>
+      <h4><%= info[:title] %></h4>
     </div>
     <div class="bs-example table-responsive">
       <table class="table table-striped table-hover ">
         <tbody>
           <% info[:mode].each do |mode| %>
-            <tr class="<%= get_difficulty_color(mode) %>">
-              <td><%= mode %> <%= info[mode][:star] %></td>
+            <tr class="<%= get_difficulty_text(mode) %>">
+              <td><span class="label <%= get_difficulty_label(mode) %>"><%= info[mode][:star] %></span></td>
               <td><img src="<%= info[mode][:detail][:image] %>" width="25" height="26" border="0"></td>
               <td><%= info[mode][:detail][:rate] %></td>
               <td><%= info[mode][:detail][:point] %></td>
