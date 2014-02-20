@@ -1,7 +1,7 @@
 // Example using journal bootswatch
 //
 // First import journal variables
-@import "bootswatch/journal/variables";
+@import "bootswatch/slate/variables";
 
 // Then bootstrap itself
 @import "bootstrap";
@@ -13,8 +13,8 @@ body { padding-top: 60px; }
 @import "bootstrap-responsive";
 
 // And finally bootswatch style itself
-@import "bootswatch/journal/bootswatch";
+@import "bootswatch/slate/bootswatch";
 
 // Whatever application styles you have go last
-@import "base";
+//@import "base";
 
