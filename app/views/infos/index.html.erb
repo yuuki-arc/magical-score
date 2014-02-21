@@ -1,5 +1,5 @@
 <h3>楽曲別スコア情報</h3>
-
+<!--
 <div>
   <% @infos.each do |info| %>
     <div class="page-header">
@@ -21,3 +21,20 @@
     </div>
   <% end %>
 </div>
+-->
+<div id="hoge"><div>
+
+<script type='text/javascript'>
+  $(function(){
+    // ページロード時
+    $( document ).ready( function(){
+      // "call_ajax" というメソッドを呼び出し
+      // ( 本質は URL の指定です。場合によってはパスが必要です。 )
+      $.get( "/infos/call_ajax" ,
+      function( d ){
+        // 値を指定の位置に設定
+        $( '#hoge' ).text( d.hoge );
+      });
+    });
+  });
+</script>

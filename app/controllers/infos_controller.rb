@@ -199,4 +199,14 @@ class InfosController < ApplicationController
       end
       image
     end
+
+    def call_ajax
+      #
+      # 何か処理を行い、変数 "hoge" に値を格納。
+      hoge = "hogehogehoge hoge"
+
+      # JSON データをリターン
+      render :json => { :hoge => hoge }
+    end
+
 end
