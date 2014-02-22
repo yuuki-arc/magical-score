@@ -1,5 +1,5 @@
 <h3>楽曲別スコア情報</h3>
-<!--
+
 <div>
   <% @infos.each do |info| %>
     <div class="page-header">
@@ -21,25 +21,19 @@
     </div>
   <% end %>
 </div>
--->
 
-<div id='tweets'>
-</div>
 
-<%= link_to 'info more', { :controller => 'infos', :action => 'call_add_info' }, :remote => true, :'data-type' => :html, :class => 'ajax_link' %>
+<%= link_to 'INFO MORE...', { :controller => 'infos', :action => 'call_add_info' }, :remote => true, :'data-type' => :html, :class => 'ajax_link' %>
 
-<div id="response_div" style="margin: 20px 0">
+<div id="more_info" style="margin: 20px 0">
 </div>
  
 <script>
 $(function () {
   $(document).on('ajax:success', 'a.ajax_link', function (ujs, content, status, xhr) {
     console.log('success');
-    $('#response_div').html(content);
+    $('#more_info').append(content);
   });
 
-  $(document).on('ajax:success', '.user-link', function (ujs, content, status, xhr) {
-    $('#user-info').html(content);
-  });
 });
 </script>

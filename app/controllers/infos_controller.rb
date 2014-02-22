@@ -5,6 +5,7 @@ require 'thread'
 class InfosController < ApplicationController
 
   BASE_URL = 'http://project-diva-ac.net'
+  @@loading_info = Queue.new
 
   # GET /infos
   # GET /infos.json
@@ -13,10 +14,31 @@ class InfosController < ApplicationController
     # @agent.user_agent = 'Mozilla/5.0 (Linux; U; Android 2.3.2; ja-jp; SonyEricssonSO-01C Build/3.0.D.2.79) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
     @agent.user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53'
     submit_login
-    extract_link
+    @infos = 'a7'
+    @@loading_info = load_page
+
+    loading_que = @@loading_info
+    if (!loading_que.nil?)
+      q = Queue.new
+      q.push(loading_que.pop(true))
+      q.push nil
+      extract_link(q)
+      @@loading_info = loading_que
+    end
+    @infos
   end
 
   def call_add_info
+    puts @@loading_info
+    loading_que = @@loading_info
+    if (!loading_que.nil?)
+      q = Queue.new
+      q.push(loading_que.pop(true))
+      q.push nil
+      extract_link(q)
+      @@loading_info = loading_que
+    end
+
     respond_to do |format|
       format.html {render :layout => false}
     end
@@ -38,12 +60,11 @@ class InfosController < ApplicationController
       # puts true if @agent.page.body =~ /niconico/
     end
 
-    def extract_link
+    def load_page
       top = @agent.get "#{BASE_URL}/divanet/pv/sort/1/false/0"
       pages = top.search("form.selectPage select[@name='page'] option")
 
       # ページ内のリンクを抽出
-      lists = []
       q = Queue.new
       # pages.each { |page| q.push(page) }
       pages.each do |page|
@@ -51,7 +72,12 @@ class InfosController < ApplicationController
         break
       end
       q.push nil
+      return q
+    end
 
+    def extract_link(q)
+
+      lists = []
       max_thread = 8 # 最大スレッド数
       # max_threadで指定した数だけスレッドを開始
       Array.new(max_thread) do |i|
@@ -116,6 +142,7 @@ class InfosController < ApplicationController
         @infos << info
       end
 
+      return @infos
     end
 
     def get_mode_score(trs, title_idx, clear_idx, score_idx)
@@ -144,15 +171,6 @@ class InfosController < ApplicationController
         end
       end
       image
-    end
-
-    def call_ajax
-      #
-      # 何か処理を行い、変数 "hoge" に値を格納。
-      hoge = "hogehogehoge hoge"
-
-      # JSON データをリターン
-      render :json => { :hoge => hoge }
     end
 
 end
