@@ -39,6 +39,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    dalli (2.7.0)
     domain_name (0.5.16)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
@@ -148,6 +149,7 @@ DEPENDENCIES
   bootstrap-sass
   bootswatch-rails
   coffee-rails (~> 4.0.0)
+  dalli
   jbuilder (~> 1.2)
   jquery-rails
   mechanize
