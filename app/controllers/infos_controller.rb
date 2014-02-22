@@ -3,7 +3,6 @@ require 'mechanize'
 require 'thread'
 
 class InfosController < ApplicationController
-  before_action :set_info, only: [:show, :edit, :update, :destroy]
 
   BASE_URL = 'http://project-diva-ac.net'
 
@@ -17,71 +16,14 @@ class InfosController < ApplicationController
     extract_link
   end
 
-  # GET /infos/1
-  # GET /infos/1.json
-  def show
-  end
-
-  # GET /infos/new
-  def new
-    @info = Info.new
-  end
-
-  # GET /infos/1/edit
-  def edit
-  end
-
-  # POST /infos
-  # POST /infos.json
-  def create
-    @info = Info.new(info_params)
-
+  def call_add_info
     respond_to do |format|
-      if @info.save
-        format.html { redirect_to @info, notice: 'Info was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @info }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @info.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /infos/1
-  # PATCH/PUT /infos/1.json
-  def update
-    respond_to do |format|
-      if @info.update(info_params)
-        format.html { redirect_to @info, notice: 'Info was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @info.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /infos/1
-  # DELETE /infos/1.json
-  def destroy
-    @info.destroy
-    respond_to do |format|
-      format.html { redirect_to infos_url }
-      format.json { head :no_content }
+      format.html {render :layout => false}
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_info
-      @info = Info.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
-    def info_params
-      params[:info]
-    end
-
     def submit_login
  
       @agent.get "#{BASE_URL}/divanet/"
@@ -103,7 +45,11 @@ class InfosController < ApplicationController
       # ページ内のリンクを抽出
       lists = []
       q = Queue.new
-      pages.each { |page| q.push(page) }
+      # pages.each { |page| q.push(page) }
+      pages.each do |page|
+        q.push(page)
+        break
+      end
       q.push nil
 
       max_thread = 8 # 最大スレッド数
