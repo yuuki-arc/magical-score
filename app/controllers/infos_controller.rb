@@ -5,38 +5,28 @@ require 'thread'
 class InfosController < ApplicationController
 
   BASE_URL = 'http://project-diva-ac.net'
-  @@loading_info = Queue.new
+  @@agent = nil
 
   # GET /infos
   # GET /infos.json
   def index
-    @agent = Mechanize.new
-    # @agent.user_agent = 'Mozilla/5.0 (Linux; U; Android 2.3.2; ja-jp; SonyEricssonSO-01C Build/3.0.D.2.79) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
-    @agent.user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53'
+    @@agent = Mechanize.new
+    # @@agent.user_agent = 'Mozilla/5.0 (Linux; U; Android 2.3.2; ja-jp; SonyEricssonSO-01C Build/3.0.D.2.79) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
+    @@agent.user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53'
     submit_login
-    @infos = 'a7'
-    @@loading_info = load_page
-
-    loading_que = @@loading_info
-    if (!loading_que.nil?)
-      q = Queue.new
-      q.push(loading_que.pop(true))
-      q.push nil
-      extract_link(q)
-      @@loading_info = loading_que
-    end
+    loading_que = load_page
+    Rails.cache.write 'loading_que', loading_que
     @infos
   end
 
   def call_add_info
-    puts @@loading_info
-    loading_que = @@loading_info
+    loading_que = Rails.cache.read 'loading_que'
     if (!loading_que.nil?)
       q = Queue.new
-      q.push(loading_que.pop(true))
+      q.push(loading_que.pop)
       q.push nil
       extract_link(q)
-      @@loading_info = loading_que
+      Rails.cache.write 'loading_que', loading_que
     end
 
     respond_to do |format|
@@ -48,30 +38,28 @@ class InfosController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def submit_login
  
-      @agent.get "#{BASE_URL}/divanet/"
-      @agent.page.form_with(name: 'loginActionForm') do |form|
+      @@agent.get "#{BASE_URL}/divanet/"
+      @@agent.page.form_with(name: 'loginActionForm') do |form|
         form.field_with(name: 'accessCode').value = Setting.login_id
         form.field_with(name: 'password').value = Setting.login_password
         form.click_button
       end
 
-      # page = @agent.get 'http://project-diva-ac.net/divanet/menu/'
+      # page = @@agent.get 'http://project-diva-ac.net/divanet/menu/'
       # # ログインに成功してたらログアウトが存在するはず
-      # puts true if @agent.page.body =~ /niconico/
+      # puts true if @@agent.page.body =~ /niconico/
     end
 
     def load_page
-      top = @agent.get "#{BASE_URL}/divanet/pv/sort/1/false/0"
+      top = @@agent.get "#{BASE_URL}/divanet/pv/sort/1/false/0"
       pages = top.search("form.selectPage select[@name='page'] option")
 
       # ページ内のリンクを抽出
-      q = Queue.new
+      q = []
       # pages.each { |page| q.push(page) }
       pages.each do |page|
-        q.push(page)
-        break
+        q << page['value']
       end
-      q.push nil
       return q
     end
 
@@ -84,11 +72,11 @@ class InfosController < ApplicationController
         Thread.new { # スレッドを作成
           begin
             # 最後のnilになったらfalseになって終了
-            while page = q.pop(true)
-              puts "start: #{Time.now} #{page['value']}"
-              list = @agent.get "#{BASE_URL}#{page['value']}"
+            while link = q.pop(true)
+              puts "start: #{Time.now} #{link}"
+              list = @@agent.get "#{BASE_URL}#{link}"
               lists += list.links_with(:href => /\/divanet\/pv\/info/n)
-              puts "end  : #{Time.now} #{page['value']}"
+              puts "end  : #{Time.now} #{link}"
             end
             q.push nil # 最後を表すnilを別スレッドのために残しておく
           end
@@ -109,7 +97,7 @@ class InfosController < ApplicationController
             # 最後のnilになったらfalseになって終了
             while link = q.pop(true)
               puts "start: #{Time.now} #{link.text}"
-              music_infos << {title: link.text, body: @agent.get("#{BASE_URL}#{link.href}")}
+              music_infos << {title: link.text, body: @@agent.get("#{BASE_URL}#{link.href}")}
               puts "end  : #{Time.now} #{link.text}"
             end
             q.push nil # 最後を表すnilを別スレッドのために残しておく
