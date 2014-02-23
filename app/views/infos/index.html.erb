@@ -21,7 +21,7 @@
       $.ajax({
         url: request[i].url,
         data: request[i].params,
-        type: 'GET',
+        type: 'POST',
         dataType: 'html',
         success: function (response) {
           $('#more_info').append(response);
