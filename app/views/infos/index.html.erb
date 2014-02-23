@@ -8,11 +8,34 @@
 </div>
  
 <script>
-$(function () {
-  $(document).on('ajax:success', 'a.ajax_link', function (ujs, content, status, xhr) {
-    console.log('success');
-    $('#more_info').append(content);
+  $(function () {
+    var request = [
+      <% @loading_que.each do |loading| %>
+        { url: './call_add_info', params: { loading:'<%= loading %>' } },
+      <% end %>
+    ];
+
+    var doneCount = 0;
+
+    for (var i = 0, len = request.length; i < len; i++) {
+      $.ajax({
+        url: request[i].url,
+        data: request[i].params,
+        type: 'GET',
+        dataType: 'html',
+        success: function (response) {
+          $('#more_info').append(response);
+          doneCount++;
+          if (doneCount === request.length) {
+              allDone();
+          }
+        }
+      });
+    }
+
+    function allDone () {
+        results; // => 結果の順番は通信が成功した順番
+    };
   });
 
-});
 </script>
