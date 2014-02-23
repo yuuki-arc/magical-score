@@ -14,9 +14,9 @@ class InfosController < ApplicationController
     # @@agent.user_agent = 'Mozilla/5.0 (Linux; U; Android 2.3.2; ja-jp; SonyEricssonSO-01C Build/3.0.D.2.79) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
     @@agent.user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53'
     submit_login
-    loading_que = load_page
-    Rails.cache.write 'loading_que', loading_que
-    @infos
+    @loading_que = load_page
+    Rails.cache.write 'loading_que', @loading_que
+    @loading_que
   end
 
   def call_add_info
@@ -27,6 +27,7 @@ class InfosController < ApplicationController
       q.push nil
       extract_link(q)
       Rails.cache.write 'loading_que', loading_que
+      @loading = loading_que
     end
 
     respond_to do |format|
@@ -137,11 +138,6 @@ class InfosController < ApplicationController
       tr_title = trs[title_idx].search('td')
       tr_clear = trs[clear_idx].search('td img')
       tr_score = trs[score_idx].search('td')
-      # info = \
-      #   "#{tr_title[0].text}　　" +
-      #   "#{get_clear_image(tr_clear)}　　" +
-      #   "#{tr_score[0].text}　　" +
-      #   "#{tr_score[1].text}　　"
       info = {
         title: tr_title[0].text,
         image: get_clear_image(tr_clear),
