@@ -57,3 +57,4 @@ gem 'rack-mini-profiler'
 gem 'newrelic_rpm'
 
 gem 'dalli'
+gem 'spinjs-rails'
