@@ -4,6 +4,9 @@
 
 <%= link_to 'INFO MORE...', { :controller => 'infos', :action => 'call_add_info' }, :remote => true, :'data-type' => :html, :class => 'ajax_link' %>
 
+<div id="error_info" style="margin: 20px 0">
+</div>
+
 <div id="more_info" style="margin: 20px 0">
 </div>
  
@@ -42,12 +45,17 @@
         data: request[i].params,
         type: 'POST',
         dataType: 'html',
-        success: function (response) {
-          $('#more_info').append(response);
-          doneCount++;
-          if (doneCount === request.length) {
-              allDone();
-          }
+      }).done(function(response){
+        $('#more_info').append(response);
+        doneCount++;
+        if (doneCount === request.length) {
+            allDone();
+        }
+      }).fail(function(response){
+        $('#error_info').append(response);
+        doneCount++;
+        if (doneCount === request.length) {
+            allDone();
         }
       });
     }
