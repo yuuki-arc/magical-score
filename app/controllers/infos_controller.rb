@@ -74,10 +74,10 @@ class InfosController < ApplicationController
           begin
             # 最後のnilになったらfalseになって終了
             while link = q.pop(true)
-              puts "start: #{Time.now} #{link}"
+              # puts "start: #{Time.now} #{link}"
               list = @@agent.get "#{BASE_URL}#{link}"
               lists += list.links_with(:href => /\/divanet\/pv\/info/n)
-              puts "end  : #{Time.now} #{link}"
+              # puts "end  : #{Time.now} #{link}"
             end
             q.push nil # 最後を表すnilを別スレッドのために残しておく
           end
@@ -97,9 +97,9 @@ class InfosController < ApplicationController
           begin
             # 最後のnilになったらfalseになって終了
             while link = q.pop(true)
-              puts "start: #{Time.now} #{link.text}"
+              # puts "start: #{Time.now} #{link.text}"
               music_infos << {title: link.text, body: @@agent.get("#{BASE_URL}#{link.href}")}
-              puts "end  : #{Time.now} #{link.text}"
+              # puts "end  : #{Time.now} #{link.text}"
             end
             q.push nil # 最後を表すnilを別スレッドのために残しておく
           end
@@ -109,7 +109,7 @@ class InfosController < ApplicationController
       # 曲別スクレイピング
       @infos = []
       music_infos.each do |music_info|
-        puts music_info[:title]
+        # puts music_info[:title]
         tables = music_info[:body].search('table')
         trs = tables.search('tr')
 
@@ -120,7 +120,7 @@ class InfosController < ApplicationController
           break if trs[pos].search('td')[1].text != 'クリア状況'
           tr_title = trs[pos].search('td')
           rank_str = tr_title[0].text.split("\n") {|rank| rank.strip!}
-          puts "'#{rank_str[0]}', '#{rank_str[1]}'"
+          # puts "'#{rank_str[0]}', '#{rank_str[1]}'"
           info[rank_str[0].strip] = {
             star:   rank_str[1],
             detail: get_mode_score(trs, pos, pos+1, pos+3),
