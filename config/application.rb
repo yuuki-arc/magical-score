@@ -22,5 +22,6 @@ module DivaAcScore
 
     # for bootsrap-sass
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    config.quiet_assets = false
   end
 end
