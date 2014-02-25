@@ -1,23 +1,60 @@
 <h3>楽曲別スコア情報</h3>
 
-<div>
-  <% @infos.each do |info| %>
-    <div class="page-header">
-      <h4><%= info[:title] %></h4>
-    </div>
-    <div class="bs-example table-responsive">
-      <table class="table table-striped table-hover ">
-        <tbody>
-          <% info[:mode].each do |mode| %>
-            <tr class="<%= get_difficulty_text(mode) %>">
-              <td><span class="label <%= get_difficulty_label(mode) %>"><%= info[mode][:star] %></span></td>
-              <td><img src="<%= info[mode][:detail][:image] %>" width="25" height="26" border="0"></td>
-              <td><%= info[mode][:detail][:rate] %></td>
-              <td><%= info[mode][:detail][:point] %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  <% end %>
+
+
+<%= link_to 'INFO MORE...', { :controller => 'infos', :action => 'call_add_info' }, :remote => true, :'data-type' => :html, :class => 'ajax_link' %>
+
+<div id="error_info" style="margin: 20px 0">
 </div>
+
+<div id="more_info" style="margin: 20px 0">
+</div>
+ 
+<script>
+  $(function () {
+    var opts = {
+      lines: 13, // The number of lines to draw
+      length: 7, // The length of each line
+      width: 4, // The line thickness
+      radius: 10, // The radius of the inner circle
+      corners: 1, // Corner roundness (0..1)
+      rotate: 0, // The rotation offset
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 60, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: 'auto', // Top position relative to parent in px
+      left: 'auto' // Left position relative to parent in px
+    };
+    var target = document.getElementById("more_info");
+    var spinner = new Spinner(opts).spin(target);
+    var request = [
+    <% @loading_que.each do |loading| %>
+      { url: './call_add_info', params: { loading:'<%= loading %>' } },
+    <% end %>
+    ];
+
+    var doneCount = 0;
+
+    for (var i = 0, len = request.length; i < len; i++) {
+      $.ajax({
+        url: request[i].url,
+        data: request[i].params,
+        type: 'POST',
+        dataType: 'html',
+      }).done(function(data, status, xhr){
+        $('#more_info').append(data);
+      }).fail(function(data, status, error){
+        $('#error_info').append(data);
+        $('#error_info').append(status);
+        $('#error_info').append(error);
+      }).always(function(data, status, arg2){
+        spinner.spin(false);
+      });
+    }
+  });
+
+</script>

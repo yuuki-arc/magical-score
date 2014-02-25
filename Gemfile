@@ -48,6 +48,8 @@ gem 'bootstrap-sass'
 gem 'bootswatch-rails'
 group :development do
   gem 'twitter-bootstrap-rails'
+  gem 'quiet_assets'
+  gem "better_errors"
 end
 
 gem 'settingslogic'
@@ -57,3 +59,5 @@ gem 'rack-mini-profiler'
 gem 'newrelic_rpm'
 
 gem 'dalli'
+gem 'spinjs-rails'
+
