@@ -30,7 +30,7 @@
       left: 'auto' // Left position relative to parent in px
     };
     var target = document.getElementById("more_info");
-    var spinner = new Spinner(opts).spin(target);
+    // var spinner = new Spinner(opts).spin(target);
     var request = [
     <% @loading_que.each do |loading| %>
       { url: './call_add_info', params: { loading:'<%= loading %>' } },
@@ -52,7 +52,8 @@
         $('#error_info').append(status);
         $('#error_info').append(error);
       }).always(function(data, status, arg2){
-        spinner.spin(false);
+        $('#error_info').append("読み込みが完了しました。");
+        // spinner.spin(false);
       });
     }
   });
