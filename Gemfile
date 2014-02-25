@@ -44,10 +44,17 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'bootstrap-sass'
-gem 'bootswatch-rails'
+#gem 'bootstrap-sass'
+#gem 'bootswatch-rails'
+
+# twitter bootstrap css & javascript toolkit
+gem 'therubyracer'
+gem 'twitter-bootswatch-rails', '~> 3.1.1'
+gem 'twitter-bootswatch-rails-fontawesome'
+gem 'twitter-bootswatch-rails-helpers'
+
 group :development do
-  gem 'twitter-bootstrap-rails'
+#  gem 'twitter-bootstrap-rails'
   gem 'quiet_assets'
   gem "better_errors"
 end
