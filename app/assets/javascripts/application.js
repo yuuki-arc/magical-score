@@ -12,6 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
-//= require bootstrap
-//= require spin
+//= require jquery.spin
+//= require slate/loader
+//= require slate/bootswatch
