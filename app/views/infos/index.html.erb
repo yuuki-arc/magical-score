@@ -45,24 +45,16 @@
         data: request[i].params,
         type: 'POST',
         dataType: 'html',
-      }).done(function(response){
-        $('#more_info').append(response);
-        doneCount++;
-        if (doneCount === request.length) {
-            allDone();
-        }
-      }).fail(function(response){
-        $('#error_info').append(response);
-        doneCount++;
-        if (doneCount === request.length) {
-            allDone();
-        }
+      }).done(function(data, status, xhr){
+        $('#more_info').append(data);
+      }).fail(function(data, status, error){
+        $('#error_info').append(data);
+        $('#error_info').append(status);
+        $('#error_info').append(error);
+      }).always(function(data, status, arg2){
+        spinner.spin(false);
       });
     }
-
-    function allDone () {
-      spinner.spin(false);
-    };
   });
 
 </script>
