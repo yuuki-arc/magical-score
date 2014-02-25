@@ -17,6 +17,10 @@ class InfosController < ApplicationController
     @loading_que = load_page
     Rails.cache.write 'loading_que', @loading_que
     @loading_que
+
+    add_breadcrumb I18n.t('title.infos'), '/infos/'
+    add_breadcrumb I18n.t('title.details'), '/details/'
+
   end
 
   def call_add_info

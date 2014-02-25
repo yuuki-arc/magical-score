@@ -24,6 +24,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "slate" %>
     <%= yield(:page_javascript) if content_for?(:page_javascript) %>
+
+    <%= render_breadcrumbs %>
+    <%= bootswatch_flash %>
     <%= yield %>
 
   </body>
