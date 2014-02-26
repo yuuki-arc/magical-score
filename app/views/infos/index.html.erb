@@ -1,5 +1,14 @@
 <h3>楽曲別スコア情報</h3>
 
+<script>
+  window.paceOptions = {
+    startOnPageLoad: false,
+    restartOnRequestAfter: false,
+    ajax: false,
+    document: false,
+    eventLag: true,
+  };
+</script>
 
 
 <%= link_to 'INFO MORE...', { :controller => 'infos', :action => 'call_add_info' }, :remote => true, :'data-type' => :html, :class => 'ajax_link' %>
@@ -7,11 +16,29 @@
 <div id="error_info" style="margin: 20px 0">
 </div>
 
-<div id="more_info" style="margin: 20px 0">
+<div id="more_info" class="more_info" style="margin: 20px 0">
 </div>
  
 <script>
+
   $(function () {
+
+    var activeRequests = 0;
+        // Pace.restart(); // show progress indicator
+
+    // $(document).ajaxStart(function(){
+    //   if (activeRequests == 0)
+    //     Pace.stop(); // stop
+
+    //   activeRequests++;
+    // });
+    // $(document).ajaxStop(function(){
+    //   activeRequests--;
+
+    //   if (activeRequests == 0)
+    //     Pace.restart(); // show progress indicator
+    // });
+
     var opts = {
       lines: 13, // The number of lines to draw
       length: 7, // The length of each line
@@ -37,6 +64,8 @@
     <% end %>
     ];
 
+  
+Pace.track(function(){
     var doneCount = 0;
 
     for (var i = 0, len = request.length; i < len; i++) {
@@ -47,15 +76,30 @@
         dataType: 'html',
       }).done(function(data, status, xhr){
         $('#more_info').append(data);
+        doneCount++;
+        percentage = Math.round(doneCount / request.length * 100);
+        if (doneCount === request.length) {
+            allDone();
+        }
       }).fail(function(data, status, error){
         $('#error_info').append(data);
         $('#error_info').append(status);
         $('#error_info').append(error);
+        doneCount++;
+        if (doneCount === request.length) {
+            allDone();
+        }
       }).always(function(data, status, arg2){
-        $('#error_info').append("読み込みが完了しました。");
-        // spinner.spin(false);
       });
     }
+
+    function allDone () {
+      $('#error_info').append("読み込みが完了しました。");
+      Pace.stop(); // stop
+      // spinner.spin(false);
+    };    
+});
+
   });
 
 </script>
