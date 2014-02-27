@@ -47,6 +47,16 @@ end
 #gem 'bootstrap-sass'
 #gem 'bootswatch-rails'
 
+#heroku
+group :development do
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
+
 # twitter bootstrap css & javascript toolkit
 gem 'therubyracer'
 gem 'twitter-bootswatch-rails', '~> 3.1.1'
