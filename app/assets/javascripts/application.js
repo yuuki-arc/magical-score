@@ -12,6 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.spin
 //= require slate/loader
 //= require slate/bootswatch
+//= require pace/pace
