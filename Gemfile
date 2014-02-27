@@ -56,6 +56,7 @@ group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
+gem 'memcachier'
 
 # twitter bootstrap css & javascript toolkit
 gem 'therubyracer'
