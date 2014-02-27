@@ -1,61 +1,111 @@
 <h3>楽曲別スコア情報</h3>
 
+<script>
+  window.paceOptions = {
+    startOnPageLoad: false,
+    restartOnRequestAfter: false,
+    ajax: false,
+    document: false,
+    eventLag: true,
+  };
+</script>
 
+
+<ul class="nav nav-pills">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">Profile</a></li>
+  <li class="disabled"><a href="#">Disabled</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      Dropdown <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#">Action</a></li>
+      <li><a href="#">Another action</a></li>
+      <li><a href="#">Something else here</a></li>
+      <li class="divider"></li>
+      <li><a href="#">Separated link</a></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="bs-example">
+  <p>
+    <button type="button" class="btn btn-info" onclick="filterRank('.text-info');">EASY</button>
+    <button type="button" class="btn btn-success" onclick="filterRank('.text-success');">NORMAL</button>
+    <button type="button" class="btn btn-warning" onclick="filterRank('.text-warning');">HARD</button>
+    <button type="button" class="btn btn-danger" onclick="filterRank('.text-danger');">EXTREME</button>
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary">ソート</button>
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a href="#">公開順</a></li>
+        <li><a href="#">曲名順</a></li>
+        <li><a href="#">難易度順</a></li>
+      </ul>
+    </div>
+  </p>
+</div>
 
 <%= link_to 'INFO MORE...', { :controller => 'infos', :action => 'call_add_info' }, :remote => true, :'data-type' => :html, :class => 'ajax_link' %>
 
 <div id="error_info" style="margin: 20px 0">
 </div>
 
-<div id="more_info" style="margin: 20px 0">
+<div id="more_info" class="more_info" style="margin: 20px 0">
 </div>
  
 <script>
+
   $(function () {
-    var opts = {
-      lines: 13, // The number of lines to draw
-      length: 7, // The length of each line
-      width: 4, // The line thickness
-      radius: 10, // The radius of the inner circle
-      corners: 1, // Corner roundness (0..1)
-      rotate: 0, // The rotation offset
-      color: '#000', // #rgb or #rrggbb
-      speed: 1, // Rounds per second
-      trail: 60, // Afterglow percentage
-      shadow: false, // Whether to render a shadow
-      hwaccel: false, // Whether to use hardware acceleration
-      className: 'spinner', // The CSS class to assign to the spinner
-      zIndex: 2e9, // The z-index (defaults to 2000000000)
-      top: 'auto', // Top position relative to parent in px
-      left: 'auto' // Left position relative to parent in px
-    };
-    var target = document.getElementById("more_info");
-    // var spinner = new Spinner(opts).spin(target);
+
     var request = [
     <% @loading_que.each do |loading| %>
       { url: './call_add_info', params: { loading:'<%= loading %>' } },
     <% end %>
     ];
 
-    var doneCount = 0;
+  
+    Pace.track(function(){
+      var doneCount = 0;
 
-    for (var i = 0, len = request.length; i < len; i++) {
-      $.ajax({
-        url: request[i].url,
-        data: request[i].params,
-        type: 'POST',
-        dataType: 'html',
-      }).done(function(data, status, xhr){
-        $('#more_info').append(data);
-      }).fail(function(data, status, error){
-        $('#error_info').append(data);
-        $('#error_info').append(status);
-        $('#error_info').append(error);
-      }).always(function(data, status, arg2){
+      for (var i = 0, len = request.length; i < len; i++) {
+        $.ajax({
+          url: request[i].url,
+          data: request[i].params,
+          type: 'POST',
+          dataType: 'html',
+        }).done(function(data, status, xhr){
+          $('#more_info').append(data);
+          doneCount++;
+          percentage = Math.round(doneCount / request.length * 100);
+          if (doneCount === request.length) {
+              allDone();
+          }
+        }).fail(function(data, status, error){
+          $('#error_info').append(data);
+          $('#error_info').append(status);
+          $('#error_info').append(error);
+          doneCount++;
+          if (doneCount === request.length) {
+              allDone();
+          }
+        }).always(function(data, status, arg2){
+        });
+      }
+
+      function allDone () {
         $('#error_info').append("読み込みが完了しました。");
+        Pace.stop(); // stop
         // spinner.spin(false);
-      });
-    }
+      };    
+    });
+
   });
+
+  function filterRank(rank) {
+    $('.table-striped tr').hide();
+    $(rank).fadeIn();
+  }
 
 </script>

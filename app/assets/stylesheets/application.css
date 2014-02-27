@@ -2,4 +2,5 @@
  *= require_self
  *= require slate/loader
  *= require slate/bootswatch
+ *= require pace/pace-theme-barber-shop
 */
