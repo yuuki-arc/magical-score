@@ -3,23 +3,23 @@ DivaAcScore::Application.configure do
 
   config.cache_store = :dalli_store
 
-  # passengerの場合
-  if defined?(PhusionPassenger)
-    PhusionPassenger.on_event(:starting_worker_process) do |forked|
-      Rails.cache.reset if forked
+  # # passengerの場合
+  # if defined?(PhusionPassenger)
+  #   PhusionPassenger.on_event(:starting_worker_process) do |forked|
+  #     Rails.cache.reset if forked
 
-      ObjectSpace.each_object(ActionDispatch::Session::DalliStore) { |obj| obj.reset }
-    end
-  end
+  #     ObjectSpace.each_object(ActionDispatch::Session::DalliStore) { |obj| obj.reset }
+  #   end
+  # end
 
-  # unicornの場合
-  after_fork do |server, worker|
-    if defined?(ActiveSupport::Cache::DalliStore) && Rails.cache.is_a?(ActiveSupport::Cache::DalliStore)
-      Rails.cache.reset
+  # # unicornの場合
+  # after_fork do |server, worker|
+  #   if defined?(ActiveSupport::Cache::DalliStore) && Rails.cache.is_a?(ActiveSupport::Cache::DalliStore)
+  #     Rails.cache.reset
 
-      ObjectSpace.each_object(ActionDispatch::Session::DalliStore) { |obj| obj.reset }
-    end
-  end
+  #     ObjectSpace.each_object(ActionDispatch::Session::DalliStore) { |obj| obj.reset }
+  #   end
+  # end
 
   # Code is not reloaded between requests.
   config.cache_classes = true
