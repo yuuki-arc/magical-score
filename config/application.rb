@@ -20,9 +20,6 @@ module DivaAcScore
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :ja
 
-    # heroku
-    config.assets.initialize_on_precompile = false
-
     # for bootsrap-sass
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     config.quiet_assets = false
