@@ -23,6 +23,9 @@ class InfosController < ApplicationController
 
   end
 
+  def show
+  end
+
   def call_add_info
     loading_que = Rails.cache.read 'loading_que'
     if (!loading_que.nil?)
