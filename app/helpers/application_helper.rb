@@ -3,7 +3,7 @@ module ApplicationHelper
   DIFFICULTY_CLASS = {
     text:  {EASY: 'text-info',  NORMAL: 'text-success',  HARD: 'text-warning',  EXTREME: 'text-danger'},
     label: {EASY: 'label-info', NORMAL: 'label-success', HARD: 'label-warning', EXTREME: 'label-danger'},
-    table: {EASY: 'info',       NORMAL: 'success',       HARD: 'warning',       EXTREME: 'error'},
+    table: {EASY: 'info',       NORMAL: 'success',       HARD: 'warning',       EXTREME: 'danger'},
   }
 
   def get_difficulty_text(difficulty)
