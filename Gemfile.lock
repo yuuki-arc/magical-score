@@ -148,8 +148,6 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (2.2.1)
-      coffee-rails
     twitter-bootswatch-rails (3.1.1.0)
       execjs (>= 1.4.0)
       less-rails (>= 2.3)
@@ -193,7 +191,6 @@ DEPENDENCIES
   spinjs-rails
   sqlite3
   therubyracer
-  turbolinks
   twitter-bootswatch-rails (~> 3.1.1)
   twitter-bootswatch-rails-fontawesome
   twitter-bootswatch-rails-helpers
