@@ -129,7 +129,7 @@ class InfosController < ApplicationController
           rank_str = tr_title[0].text.split("\n") {|rank| rank.strip!}
           # puts "'#{rank_str[0]}', '#{rank_str[1]}'"
           info[rank_str[0].strip] = {
-            star:   rank_str[1].sub("★",""),
+            star:   rank_str[1].sub("★","").strip,
             detail: get_mode_score(trs, pos, pos+1, pos+3),
           }
           mode << rank_str[0].strip
