@@ -31,10 +31,10 @@
 
 <div class="bs-example">
   <p>
-    <button type="button" class="btn btn-info" onclick="filterRank('.text-info');">EASY</button>
-    <button type="button" class="btn btn-success" onclick="filterRank('.text-success');">NORMAL</button>
-    <button type="button" class="btn btn-warning" onclick="filterRank('.text-warning');">HARD</button>
-    <button type="button" class="btn btn-danger" onclick="filterRank('.text-danger');">EXTREME</button>
+    <button type="button" class="btn btn-info" onclick="selectRank('.text-info');">EASY</button>
+    <button type="button" class="btn btn-success" onclick="selectRank('.text-success');">NORMAL</button>
+    <button type="button" class="btn btn-warning" onclick="selectRank('.text-warning');">HARD</button>
+    <button type="button" class="btn btn-danger" onclick="selectRank('.text-danger');">EXTREME</button>
     <div class="btn-group">
       <button type="button" class="btn btn-primary">ソート</button>
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
@@ -103,8 +103,8 @@
 
   });
 
-  function filterRank(rank) {
-    $('.table-striped tr').hide();
+  function selectRank(rank) {
+    $('.table-striped tbody tr').hide();
     $(rank).fadeIn();
   }
 
