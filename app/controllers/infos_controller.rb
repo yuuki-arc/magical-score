@@ -129,7 +129,7 @@ class InfosController < ApplicationController
           rank_str = tr_title[0].text.split("\n") {|rank| rank.strip!}
           # puts "'#{rank_str[0]}', '#{rank_str[1]}'"
           info[rank_str[0].strip] = {
-            star:   rank_str[1],
+            star:   rank_str[1].sub("★","").strip,
             detail: get_mode_score(trs, pos, pos+1, pos+3),
           }
           mode << rank_str[0].strip
@@ -144,12 +144,14 @@ class InfosController < ApplicationController
     def get_mode_score(trs, title_idx, clear_idx, score_idx)
       tr_title = trs[title_idx].search('td')
       tr_clear = trs[clear_idx].search('td img')
+      tr_trial = trs[clear_idx].search('td')
       tr_score = trs[score_idx].search('td')
       info = {
         title: tr_title[0].text,
         image: get_clear_image(tr_clear),
+        trial: tr_trial[4].text,
         rate:  tr_score[0].text,
-        point: tr_score[1].text,
+        point: tr_score[1].text.sub("pts",""),
       }
     end
 
