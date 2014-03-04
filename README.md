@@ -1,4 +1,4 @@
-diva-ac-score
+diva-portable
 =============
 
-Project DIVA Arcade Score Viewer
+DIVA Portable -Project DIVA Arcade-
