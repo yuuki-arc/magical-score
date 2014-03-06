@@ -1,4 +1,4 @@
-diva-portable
+magical-score
 =============
 
-DIVA Portable -Project DIVA Arcade-
+Magical Score -Project DIVA Arcade-
