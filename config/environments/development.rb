@@ -1,7 +1,7 @@
 DivaAcScore::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.cache_store = :dalli_store, 'localhost', { :namespace => 'diva-portable', :compress => true }
+  config.cache_store = :dalli_store, 'localhost', { :namespace => 'magical-score', :compress => true }
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
