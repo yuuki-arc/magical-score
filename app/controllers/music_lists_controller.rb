@@ -2,13 +2,13 @@
 require 'mechanize'
 require 'thread'
 
-class InfosController < ApplicationController
+class MusicListsController < ApplicationController
 
   BASE_URL = 'http://project-diva-ac.net'
   @@agent = nil
 
-  # GET /infos
-  # GET /infos.json
+  # GET /music_lists
+  # GET /music_lists.json
   def index
     @@agent = Mechanize.new
     # @@agent.user_agent = 'Mozilla/5.0 (Linux; U; Android 2.3.2; ja-jp; SonyEricssonSO-01C Build/3.0.D.2.79) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
@@ -18,7 +18,7 @@ class InfosController < ApplicationController
     Rails.cache.write 'loading_que', @loading_que
     @loading_que
 
-    add_breadcrumb I18n.t('title.infos'), '/infos/'
+    add_breadcrumb I18n.t('title.music_lists'), '/music_lists/'
     add_breadcrumb I18n.t('title.details'), '/details/'
 
   end
