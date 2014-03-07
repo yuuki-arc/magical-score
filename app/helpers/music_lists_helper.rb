@@ -1,2 +1,2 @@
-module InfosHelper
+module MusicListsHelper
 end
