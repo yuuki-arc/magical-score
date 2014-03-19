@@ -16,7 +16,11 @@ DivaAcScore::Application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
+  resources :tops, only:[ :index ]
+  resources :informations, only:[ :index ]
   resources :music_lists, only:[ :index, :show, :call_add_info ]
+  resources :records, only:[ :index ]
+  resources :histories, only:[ :index ]
 
   # Example resource route with options:
   #   resources :products do
