@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-DivaAcScore::Application.config.secret_key_base = 'f0783402e576204d7efc107fd9572d1787085f09b9558ae079061e4616ff7a6ca2d0ed4e1e41de2afabada55a2ceec66c6acd2a6d11af9364a5aa3a7b99aaa67'
+DivaAcScore::Application.config.secret_key_base = ENV['SECRET_TOKEN']
