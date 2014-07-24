@@ -7,9 +7,8 @@ class LoginController < ApplicationController
   
   def auth
     user = User.authenticate(params[:access_code], params[:password])
-    if user || true then
-      session[:access_code] = params[:access_code]
-      session[:password] = params[:password]
+    if user then
+      session[:user] = user
       # redirect_to params[:referer]
       redirect_to :controller => 'music_lists', :action => 'index'
     else
