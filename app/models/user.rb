@@ -1,7 +1,4 @@
 class User < ActiveRecord::Base
-  def self.authenticate(name, password)
-    where(:name => name,
-      :password => password).first
-      #:password => Digest::SHA1.hexdigest(password)).first
+  def self.authenticate(access_code, password)
   end
 end

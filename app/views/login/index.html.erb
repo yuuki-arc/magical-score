@@ -1,13 +1,27 @@
+<h3>アクセスコード</h3>
 <p style="color: Red"><%= @error %></p>
-<%= form_tag :action => 'auth' do %>
-  <div class="field">
-    <label>USER NAME:<br />
-    <%= text_field_tag(:name, '', { :size => 20 }) %></label>
-  </div>
-  <div class="field">
-    <label>PASSWORD:<br />
-    <%= password_field_tag(:password, '', { :size => 20 }) %></label>
-  </div>
-  <%= hidden_field_tag :referer, flash[:referer] %>
-  <%= submit_tag 'login' %>
+<div class="well bs-component">
+<%= form_tag({ :action => 'auth' }, { :class => 'form-horizontal' }) do %>
+  <fieldset>
+    <legend>DIVA.NETログイン</legend>
+    <div class="form-group">
+      <label for="access_code" class="col-lg-2 control-label">アクセスコード</label>
+      <div class="col-lg-10">
+        <%= text_field_tag(:access_code, '', { :class => 'form-control', :placeholder => 'アクセスコード' }) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password" class="col-lg-2 control-label">パスワード</label>
+      <div class="col-lg-10">
+        <%= password_field_tag(:password, '', { :class => 'form-control', :paceholder => 'パスワード' }) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <%= button_tag 'ログイン', { :class => 'btn btn-primary'} %>
+        <%= hidden_field_tag :referer, flash[:referer] %>
+      </div>
+    </div>
+  </fieldset>
 <% end %>
+</div>

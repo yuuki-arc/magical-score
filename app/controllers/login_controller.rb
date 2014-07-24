@@ -6,13 +6,15 @@ class LoginController < ApplicationController
   end
   
   def auth
-    user = User.authenticate(params[:name], params[:password])
-    if user then
-      session[:user] = user.id
-      redirect_to params[:referer]
+    user = User.authenticate(params[:access_code], params[:password])
+    if user || true then
+      session[:access_code] = params[:access_code]
+      session[:password] = params[:password]
+      # redirect_to params[:referer]
+      redirect_to :controller => 'music_lists', :action => 'index'
     else
       flash.now[:referer] = params[:referer]
-      @error = 'username / password error'
+      @error = 'access_code / password error'
       render 'index'
     end
   end
