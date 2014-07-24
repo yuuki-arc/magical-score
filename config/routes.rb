@@ -4,7 +4,7 @@ DivaAcScore::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  root :to => 'music_lists#index'
+  root :to => 'login#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -16,6 +16,7 @@ DivaAcScore::Application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
+  resources :login, only:[ :index ]
   resources :tops, only:[ :index ]
   resources :informations, only:[ :index ]
   resources :music_lists, only:[ :index, :show, :call_add_info ]
