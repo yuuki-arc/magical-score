@@ -48,8 +48,8 @@ class MusicListsController < ApplicationController
  
       @@agent.get "#{BASE_URL}/divanet/"
       @@agent.page.form_with(name: 'loginActionForm') do |form|
-        form.field_with(name: 'accessCode').value = Setting.login_id
-        form.field_with(name: 'password').value = Setting.login_password
+        form.field_with(name: 'accessCode').value = session[:access_code]
+        form.field_with(name: 'password').value = session[:password]
         form.click_button
       end
 

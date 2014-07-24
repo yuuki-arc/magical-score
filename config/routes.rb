@@ -8,7 +8,8 @@ DivaAcScore::Application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
-  post "music_lists/call_add_info"
+  post 'login/auth'
+  post 'music_lists/call_add_info'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
