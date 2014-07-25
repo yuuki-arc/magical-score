@@ -26,6 +26,12 @@
       </div>
     </div>
     <div class="form-group">
+      <%= label_tag :remember_me %>
+      <div class="col-lg-10">
+        <%= check_box_tag :remember_me, 1, params[:remember_me] %>
+      </div>
+    </div>
+    <div class="form-group">
       <div class="col-lg-10 col-lg-offset-2">
         <%= button_tag 'ログイン', { :class => 'btn btn-primary'} %>
         <%= hidden_field_tag :referer, flash[:referer] %>
