@@ -18,4 +18,4 @@ pickle-email-*.html
 .project
 #config/initializers/secret_token.rb
 
-develop_server.sh
+start_dev_server.sh
