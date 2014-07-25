@@ -13,7 +13,7 @@ class LoginController < ApplicationController
       redirect_to :controller => 'music_lists', :action => 'index'
     else
       flash.now[:referer] = params[:referer]
-      @error = 'access_code / password error'
+      @error = 'アクセスコードまたはパスワードが一致しません。'
       render 'index'
     end
   end

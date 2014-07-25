@@ -1,5 +1,14 @@
 <h3>DIVA.NETログイン</h3>
-<p style="color: Red"><%= @error %></p>
+
+<% if @error %>
+<div class="bs-component">
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <p><%= @error %></p>
+  </div>
+</div>
+<% end %>
+
 <div class="well bs-component">
 <%= form_tag({ :action => 'auth' }, { :class => 'form-horizontal' }) do %>
   <fieldset>
