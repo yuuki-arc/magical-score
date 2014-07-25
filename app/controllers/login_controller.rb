@@ -8,10 +8,13 @@ class LoginController < ApplicationController
   end
   
   def auth
-    cookies[:access_code] = params[:access_code]
-    cookies[:password] = params[:password]
-    user = User.authenticate(params[:access_code], params[:password])
-    if user then
+    user = User.find_by_access_code(params[:access_code])
+    if user && user.authenticate(params[:password])
+      if params[:remember_me]
+        cookies.permanent[:auth_token] = user.auth_token
+      else
+        cookies[:auth_token] = user.auth_token
+      end
       session[:user] = user
       # redirect_to params[:referer]
       redirect_to :controller => 'music_lists', :action => 'index'
@@ -25,6 +28,7 @@ class LoginController < ApplicationController
   end
 
   def logout
+    cookies.delete(:auth_token)
     reset_session
     redirect_to '/'
   end
