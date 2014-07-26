@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  access_code: MyString
-  password_digest: MyString
-
-two:
-  access_code: MyString
-  password_digest: MyString

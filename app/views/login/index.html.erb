@@ -10,7 +10,7 @@
 <% end %>
 
 <div class="well bs-component">
-<%= form_tag( logins_path, { :class => 'form-horizontal' }) do %>
+<%= form_tag({ :action => 'auth' }, { :class => 'form-horizontal' }) do %>
   <fieldset>
     <legend>ログイン情報</legend>
     <div class="form-group">
@@ -23,19 +23,6 @@
       <label for="password" class="col-lg-2 control-label">パスワード</label>
       <div class="col-lg-10">
         <%= password_field_tag(:password, '', { :class => 'form-control', :value => cookies['password'], :placeholder => 'パスワード' }) %>
-      </div>
-    </div>
-    <div class="form-group">
-      <%= label_tag :use_token %>
-      <div class="col-lg-10">
-        <%= check_box_tag :use_token, 1, params[:use_token] %>
-        <%= hidden_field_tag :token, params[:token] %>
-      </div>
-    </div>
-    <div class="form-group">
-      <%= label_tag :remember_me %>
-      <div class="col-lg-10">
-        <%= check_box_tag :remember_me, 1, params[:remember_me] %>
       </div>
     </div>
     <div class="form-group">
