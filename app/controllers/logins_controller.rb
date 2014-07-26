@@ -1,4 +1,4 @@
-class LoginController < ApplicationController
+class LoginsController < ApplicationController
   skip_before_filter :check_logined
 
   def index
@@ -8,17 +8,16 @@ class LoginController < ApplicationController
   end
   
   def auth
-    cookies[:access_code] = params[:access_code]
-    cookies[:password] = params[:password]
-    user = User.authenticate(params[:access_code], params[:password])
-    if user then
-      session[:user] = user
+    @access_code = params[:access_code]
+    @password = params[:password]
+    if @access_code.present? && @password.present?
+      cookies[:access_code] = @access_code
+      cookies[:password] = @password
+      session[:user] = User.new(params)
       # redirect_to params[:referer]
       redirect_to :controller => 'music_lists', :action => 'index'
     else
       flash.now[:referer] = params[:referer]
-      @access_code = cookies[:access_code]
-      @password = cookies[:password]
       @error = 'アクセスコードまたはパスワードが一致しません。'
       render 'index'
     end
