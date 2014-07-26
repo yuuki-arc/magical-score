@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :exception
   before_filter :check_logined
   layout 'slate'
 
@@ -7,8 +7,14 @@ class ApplicationController < ActionController::Base
 
   private
   def current_user
-    @current_user ||= User.find_by_auth_token( cookies[:auth_token]) if cookies[:auth_token]
+    if session[:user]
+      # @current_userがnilかfalseならログインユーザーを代入
+      @current_user ||= User.find(session[:user].access_code)
+    end
   end
+  # def current_user
+  #   @current_user ||= User.find_by_auth_token( cookies[:auth_token]) if cookies[:auth_token]
+  # end
   helper_method :current_user
   
   private

@@ -2,10 +2,8 @@
 
 one:
   access_code: MyString
-  password: MyString
-  auth_token: MyString
+  password_digest: MyString
 
 two:
   access_code: MyString
-  password: MyString
-  auth_token: MyString
+  password_digest: MyString

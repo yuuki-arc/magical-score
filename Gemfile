@@ -62,6 +62,8 @@ group :production do
 end
 gem 'memcachier'
 
+gem 'rails-i18n'
+
 # twitter bootstrap css & javascript toolkit
 gem 'therubyracer'
 gem 'twitter-bootswatch-rails', '~> 3.1.1'

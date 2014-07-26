@@ -1,13 +1,14 @@
-class User < ActiveRecord::Base
-  attr_accessible :access_code, :password
-  has_secure_password
-  validates_presence_of :password, :on => :create
-  before_create { generate_token(:auth_token) }
+require "bcrypt"
 
-  def generate_token(column)
-    begin
-      self[column] = SecureRandom.urlsafe_base64
-    end while User.exists?(column => self[column])
+class User < ActiveRecord::Base
+  attr_accessible :access_code, :password, :password_confirmation
+  has_secure_password
+
+  before_save do
+    self.password_digest = BCrypt::Password.create(password)
+  end 
+
+  def authenticate(unencrypted_password)
+    BCrypt::Password.new(password_digest) == unencrypted_password
   end
-  
 end
