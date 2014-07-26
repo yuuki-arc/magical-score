@@ -10,7 +10,7 @@
 <% end %>
 
 <div class="well bs-component">
-<%= form_tag({ :action => 'auth' }, { :class => 'form-horizontal' }) do %>
+<%= form_tag( logins_path, { :class => 'form-horizontal' }) do %>
   <fieldset>
     <legend>ログイン情報</legend>
     <div class="form-group">
