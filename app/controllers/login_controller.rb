@@ -19,6 +19,8 @@ class LoginController < ApplicationController
       # redirect_to params[:referer]
       redirect_to :controller => 'music_lists', :action => 'index'
     else
+      u = User.new(access_code: params[:access_code], password: params[:password])
+      u.save!
       flash.now[:referer] = params[:referer]
       @access_code = cookies[:access_code]
       @password = cookies[:password]
