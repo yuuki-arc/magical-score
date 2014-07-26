@@ -4,11 +4,11 @@ DivaAcScore::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  root :to => 'login#index'
+  root :to => 'logins#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
-  post 'login/auth'
+  post 'logins/auth'
   post 'music_lists/call_add_info'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
@@ -17,7 +17,7 @@ DivaAcScore::Application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-  resources :login, only:[ :index, :auth ]
+  resources :logins, only:[ :index, :auth ]
   resources :tops, only:[ :index ]
   resources :informations, only:[ :index ]
   resources :music_lists, only:[ :index, :show, :call_add_info ]
