@@ -1,22 +1,12 @@
 class ApplicationController < ActionController::Base
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_filter :check_logined
   layout 'slate'
 
   http_basic_authenticate_with :name => ENV["BASIC_AUTH_NAME"], :password => ENV["BASIC_AUTH_PW"] if Rails.env.production?
 
-  private
-  def current_user
-    if session[:user]
-      # @current_user ||= User.find(session[:user].access_code)
-      @current_user ||= User.find_by_auth_token(cookies[:auth_token]) if cookies[:auth_token]
-    end
-  end
-  # def current_user
-  #   @current_user ||= User.find_by_auth_token( cookies[:auth_token]) if cookies[:auth_token]
-  # end
-  helper_method :current_user
-  
   private
   def check_logined
     if session[:user] then
