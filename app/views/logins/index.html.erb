@@ -1,0 +1,36 @@
+<h3>DIVA.NETログイン</h3>
+
+<% if @error %>
+<div class="bs-component">
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <p><%= @error %></p>
+  </div>
+</div>
+<% end %>
+
+<div class="well bs-component">
+<%= form_tag({ :action => 'auth' }, { :class => 'form-horizontal' }) do %>
+  <fieldset>
+    <legend>ログイン情報</legend>
+    <div class="form-group">
+      <label for="access_code" class="col-lg-2 control-label">アクセスコード</label>
+      <div class="col-lg-10">
+        <%= text_field_tag(:access_code, '', { :class => 'form-control', :value => cookies['access_code'], :placeholder => 'アクセスコード' }) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password" class="col-lg-2 control-label">パスワード</label>
+      <div class="col-lg-10">
+        <%= password_field_tag(:password, '', { :class => 'form-control', :value => cookies['password'], :placeholder => 'パスワード' }) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <%= button_tag 'ログイン', { :class => 'btn btn-primary'} %>
+        <%= hidden_field_tag :referer, flash[:referer] %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
+</div>

@@ -69,7 +69,8 @@ gem 'twitter-bootswatch-rails-helpers'
 group :development do
 #  gem 'twitter-bootstrap-rails'
   gem 'quiet_assets'
-  gem "better_errors"
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 gem 'settingslogic'
