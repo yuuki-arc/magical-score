@@ -45,7 +45,7 @@ class MusicListsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def submit_login
- 
+
       @@agent.get "#{BASE_URL}/divanet/"
       @@agent.page.form_with(name: 'loginActionForm') do |form|
         form.field_with(name: 'accessCode').value = @user.access_code #Setting.login_id
@@ -53,9 +53,8 @@ class MusicListsController < ApplicationController
         form.click_button
       end
 
-      # page = @@agent.get 'http://project-diva-ac.net/divanet/menu/'
       # # ログインに成功してたらログアウトが存在するはず
-      # puts true if @@agent.page.body =~ /niconico/
+      # puts true if @@agent.page.body =~ /divanet/logout/
     end
 
     def load_page
