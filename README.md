@@ -7,7 +7,8 @@ Magical Score -Project DIVA Arcade-
 
 ##サイト
 
-https://magical-score.herokuapp.com/
+https://magical-score.herokuapp.com/  
+※BASIC認証にて制限中
 
 ##利用する前に
 
@@ -17,7 +18,7 @@ DIVA.NETのアカウントが必要になります。
 ##利用方法
 
 サイトに進むとログイン画面が開きますのでアカウント情報を入力してください。  
-ログインすると全楽曲のスコア一覧が表示されます。
+ログインすると全楽曲のスコア一覧が表示されます。  
 難易度（EASY / NORMAL / HARD / EXTREME）によるフィルタが可能です。  
 （Version Aから追加されたEX EXTREMEは未対応です。）
 
